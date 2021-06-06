@@ -174,7 +174,17 @@ module.exports = {
       150: '1.5',
       200: '2',
     },
-    container: {},
+    container: {
+        center: true,
+        screens: {
+            DEFAULT: '100%',
+            sm: '540px',
+            md: '720px',
+            lg: '960px',
+            xl: '1140px',
+            '2-xl': '1320px'
+        }
+    },
     cursor: {
       auto: 'auto',
       default: 'default',
