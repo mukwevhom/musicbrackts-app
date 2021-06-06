@@ -1,0 +1,78 @@
+.header-logo {
+    @apply flex items-center;
+    a {
+        @apply text-xl font-bold;
+    }
+}
+
+.header-nav {
+    @apply flex-auto;
+    ul {
+        @apply flex justify-end m-0 p-0 gap-4;
+    }
+}
+
+.hero-section {
+    @apply bg-gray-50;
+    .container {
+        @apply flex flex-col justify-center gap-6 mx-auto h-80;
+        .hero-title {
+            h2 {
+                @apply text-4xl font-medium text-center;
+            }
+            
+        }
+        .hero-search {
+            @apply text-center;
+            .search-wrapper {
+                @apply relative w-4/5 md:w-2/5 xl:w-1/4 mx-auto;
+                .search-form {
+                    @apply flex gap-1 bg-white rounded-md p-1 border border-gray-300 shadow;
+                    .search-input {
+                        @apply flex-1 outline-none h-10;
+                    }
+                    .search-submit {
+                        @apply w-10 text-white rounded-md outline-none;
+                        background-color: rgb(30, 30, 28);
+                        svg {
+                            @apply mx-auto;
+                        }
+                    }
+                }
+                .search-results-wrapper {
+                    @apply absolute bg-white rounded-md p-3 mt-2 w-full shadow;
+                    .search-results-list {
+                        @apply flex flex-col gap-3;
+                        .search-song-wrapper {
+                            @apply rounded overflow-hidden;
+                            .search-song {
+                                @apply p-1 flex gap-2 transition-all hover:bg-gray-200;
+                                .search-song-album-art {
+                                    @apply w-1/5 rounded overflow-hidden;
+                                    aspect-ratio: 1;
+                                    figure {
+                                        @apply h-full w-full;
+                                        img {
+                                            @apply h-full w-full object-cover object-center;
+                                        }
+                                    }
+                                    
+                                }
+                                .search-song-info {
+                                    @apply text-left flex-grow flex flex-col justify-center;
+                                    .search-song-name {
+                                        @apply text-opacity-75;
+                                    }
+                                    .search-song-artist-name {
+                                        @apply font-semibold;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
