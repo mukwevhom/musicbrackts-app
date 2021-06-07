@@ -9,6 +9,12 @@ const StyledFooter = styled.footer`
 
 const BaseFooter = styled.div`
     display: flex;
+    width: 100%;
+    @media (max-width: 575px) {
+        flex-direction: column;
+        gap: .75em;
+        text-align: center;
+    }
 `
 
 const LegalLinks = styled.ul`
@@ -18,6 +24,9 @@ const LegalLinks = styled.ul`
     gap: .75em;
     a {
         color: #9CA3AF;
+    }
+    @media (max-width: 575px) {
+        justify-content: center;
     }
 `
 
