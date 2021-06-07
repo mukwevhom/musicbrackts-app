@@ -4,7 +4,7 @@ import { createAutocomplete, AutocompleteOptions, AutocompleteState } from '@alg
 import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
 import { Hit } from '@algolia/client-search';
 import SearchSongItem from './SearchSongItem';
-import { Search, X } from 'react-feather';
+import { Search } from 'react-feather';
 
 const appId = 'J8IO1T0ZQE';
 const apiKey = '3d0ae58561bbdc5111784bd77f8bf2d6';
@@ -89,9 +89,6 @@ const AlgoliaAutoComplete = (props: Partial<AutocompleteOptions<AutocompleteItem
                 className="search-input"
                 ref={inputRef}
                 {...autocomplete.getInputProps({ inputElement: inputRef.current })} />
-            <button className="search-clear" title="Clear" type="reset">
-                <X size={18}/>
-            </button>
             <button className="search-submit" type="submit" title="Submit">
                 <Search size={21} stroke-width="3.25" />
             </button>
@@ -115,8 +112,8 @@ const AlgoliaAutoComplete = (props: Partial<AutocompleteOptions<AutocompleteItem
                             <section key={`source-${index}`} className="search-source">
                             {items.length > 0 && (
                                 <ul className="search-results-list" {...autocomplete.getListProps()}>
-                                {items.map((item) => {
-                                    return <SearchSongItem hit={item} />;
+                                {items.map((item, index) => {
+                                    return <SearchSongItem key={`song-${index}`} hit={item} />;
                                 })}
                                 </ul>
                             )}
