@@ -6,6 +6,8 @@ import {
   } from "react-router-dom";
 
 import './App.scss';
+import Artist from './pages/Artist';
+import Artists from './pages/Artists';
 import Home from './pages/Home';
 import Song from './pages/Song';
 import Songs from './pages/Songs';
@@ -18,8 +20,8 @@ const App = () => {
                 <Route path="/" exact children={<Home />} />
                 <Route path="/songs" exact children={<Songs />} />
                 <Route path="/song/:id" exact children={<Song />} />
-                <Route path="/artists" >Artists</Route>
-                <Route path="/artist/:id" >Artist</Route>
+                <Route path="/artists" exact children={<Artists />} />
+                <Route path="/artist/:id" exact children={<Artist />} />
                 <Route path="/upload-music" exact children={<UploadMusic />} />
             </Switch>
         </Router>
