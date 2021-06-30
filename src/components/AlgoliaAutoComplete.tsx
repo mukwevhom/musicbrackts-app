@@ -90,7 +90,7 @@ const AlgoliaAutoComplete = (props: Partial<AutocompleteOptions<AutocompleteItem
                 ref={inputRef}
                 {...autocomplete.getInputProps({ inputElement: inputRef.current })} />
             <button className="search-submit" type="submit" title="Submit">
-                <Search size={21} stroke-width="3.25" />
+                <Search size={21} strokeWidth="3.25" />
             </button>
             </form>
             {autocompleteState.isOpen && (
