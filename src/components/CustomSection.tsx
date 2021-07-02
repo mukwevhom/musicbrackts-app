@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export interface Props {
+    showHeader ?: boolean;
     headerText ?: string;
     subHeaderText ?: string;
     children?: any;
@@ -24,6 +25,12 @@ const SectionHeader = styled.div`
         line-height: 2.25rem;
         font-weight: 500;
         flex:1;
+        span {
+            display: block;
+            font-weight: 200;
+            line-height: 1;
+            font-size: 1rem;
+        }
     }
     a {
         text-decoration: underline;
@@ -37,15 +44,20 @@ const SectionContent = styled.div`
     
 `
 
-const CustomSection: React.FC<Props> = ({headerText, subHeaderText, children, backgroundColor, viewMore}) => {
+const CustomSection: React.FC<Props> = ({showHeader=true, headerText, subHeaderText, children, backgroundColor, viewMore}) => {
     return (
         <Section bgColor={backgroundColor}>
             <div className='container'>
-                <SectionHeader>
-                    <h2>{headerText}</h2>
-                    {viewMore && (
-                        <Link to={viewMore} >View More &gt;</Link>)}
-                </SectionHeader>
+                {showHeader &&
+                    (<SectionHeader>
+                        <h2>{headerText}
+                            {subHeaderText &&
+                                (<span>{subHeaderText}</span>)}
+                        </h2>
+                        
+                        {viewMore && (
+                            <Link to={viewMore} >View More &gt;</Link>)}
+                    </SectionHeader>)}
                 <SectionContent>
                     {children}
                 </SectionContent>
