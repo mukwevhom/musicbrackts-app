@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 export interface Props {
     showHeader ?: boolean;
+    alignHeader ?: string;
     headerText ?: string;
     subHeaderText ?: string;
     children?: any;
@@ -17,9 +18,10 @@ const Section = styled.section<{bgColor?: string}>`
     color: ${props => props.bgColor ? '#fff' : '#000'};
 `
 
-const SectionHeader = styled.div`
+const SectionHeader = styled.div<{align ?: string}>`
     display: flex;
     align-items: center;
+    text-align: ${props => props.align || 'left'};
     h2 {
         font-size: 1.5rem;
         line-height: 2.25rem;
@@ -44,12 +46,12 @@ const SectionContent = styled.div`
     
 `
 
-const CustomSection: React.FC<Props> = ({showHeader=true, headerText, subHeaderText, children, backgroundColor, viewMore}) => {
+const CustomSection: React.FC<Props> = ({showHeader=true, alignHeader, headerText, subHeaderText, children, backgroundColor, viewMore}) => {
     return (
         <Section bgColor={backgroundColor}>
             <div className='container'>
                 {showHeader &&
-                    (<SectionHeader>
+                    (<SectionHeader align={alignHeader}>
                         <h2>{headerText}
                             {subHeaderText &&
                                 (<span>{subHeaderText}</span>)}

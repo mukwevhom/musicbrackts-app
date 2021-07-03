@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Helmet} from "react-helmet";
 import CustomSection from '../components/CustomSection';
 import MainLayout from '../layouts/MainLayout';
 import styled from 'styled-components';
+// Import React FilePond
+import { FilePond } from 'react-filepond'
 
-const FormGroup = styled.div`
+// Import FilePond styles
+import 'filepond/dist/filepond.min.css'
+
+const FormGroup = styled.div<{align ?: string}>`
     box-shadow: rgb(0 0 0 / 10%) 0px 0.0625rem 0.125rem, rgb(0 0 0 / 15%) 0px 0.25rem 1rem -0.125rem;
     transition: box-shadow 0.5s ease-in-out;
     width: 50%;
     padding: .75rem;
+    margin: ${props => props.align === 'center' ? '0 auto' : '0'};
     & + div {
         margin-top:24px;
     }
@@ -18,6 +24,7 @@ const FormGroupHeader = styled.div`
     h2 {
         font-size: 1.2rem;
         font-weight: 500;
+        margin-bottom: 1.75rem;
     }
 `
 
@@ -52,33 +59,46 @@ const FormInput = styled.div`
 `
 
 const UploadMusic = () => {
+    const [files, setFiles] = useState([] as any)
     return (
         <MainLayout>
             <Helmet>
                 <title>MusicBrackts | Upload Music</title>
             </Helmet>
-            <CustomSection headerText="Submit your music" subHeaderText="Complete the fields below" >
-                <FormGroup>
+            <CustomSection headerText="Submit your music" subHeaderText="Complete the fields below" alignHeader="center" >
+                <FormGroup align="center">
                     <FormGroupHeader>
                         <h2>Basic Info</h2>
                     </FormGroupHeader>
                     <FormGroupContent>
                         <FormInput>
-                            <label>Input Field</label>
+                            <label>Song name</label>
                             <input type='Test' />
                         </FormInput>
                         <FormInput>
-                            <label>Input Field</label>
+                            <label>Artist name</label>
+                            <input type='Test' />
+                        </FormInput>
+                        <FormInput>
+                            <label>Featured Artist</label>
                             <input type='Test' />
                         </FormInput>
                     </FormGroupContent>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup align="center">
                     <FormGroupHeader>
-                        <h2>Basic</h2>
+                        <h2>Files</h2>
                     </FormGroupHeader>
                     <FormGroupContent>
-                        test
+                        <FilePond
+                            files={files}
+                            onupdatefiles={setFiles}
+                            allowMultiple={true}
+                            maxFiles={3}
+                            server="/api"
+                            name="files"
+                            labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+                        />
                     </FormGroupContent>
                 </FormGroup>
             </CustomSection>
