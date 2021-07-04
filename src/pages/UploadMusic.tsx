@@ -3,11 +3,6 @@ import {Helmet} from "react-helmet";
 import CustomSection from '../components/CustomSection';
 import MainLayout from '../layouts/MainLayout';
 import styled from 'styled-components';
-// Import React FilePond
-import { FilePond } from 'react-filepond'
-
-// Import FilePond styles
-import 'filepond/dist/filepond.min.css'
 
 const FormGroup = styled.div<{align ?: string}>`
     box-shadow: rgb(0 0 0 / 10%) 0px 0.0625rem 0.125rem, rgb(0 0 0 / 15%) 0px 0.25rem 1rem -0.125rem;
@@ -59,7 +54,6 @@ const FormInput = styled.div`
 `
 
 const UploadMusic = () => {
-    const [files, setFiles] = useState([] as any)
     return (
         <MainLayout>
             <Helmet>
@@ -90,15 +84,7 @@ const UploadMusic = () => {
                         <h2>Files</h2>
                     </FormGroupHeader>
                     <FormGroupContent>
-                        <FilePond
-                            files={files}
-                            onupdatefiles={setFiles}
-                            allowMultiple={true}
-                            maxFiles={3}
-                            server="/api"
-                            name="files"
-                            labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
-                        />
+                        
                     </FormGroupContent>
                 </FormGroup>
             </CustomSection>
