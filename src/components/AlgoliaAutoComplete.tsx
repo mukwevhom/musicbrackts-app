@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo } from 'react';
+import React from 'react';
 import algoliasearch from 'algoliasearch';
 import { createAutocomplete, AutocompleteOptions, AutocompleteState } from '@algolia/autocomplete-core';
 import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia';
@@ -106,7 +106,7 @@ const AlgoliaAutoComplete = (props: Partial<AutocompleteOptions<AutocompleteItem
                 >
                     <div className="search-results">
                         {autocompleteState.collections.map((collection, index) => {
-                        const { source, items } = collection;
+                        const { items } = collection;
 
                         return (
                             <section key={`source-${index}`} className="search-source">

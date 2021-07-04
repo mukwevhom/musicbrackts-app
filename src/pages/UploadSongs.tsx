@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {Helmet} from "react-helmet";
 import CustomSection from '../components/CustomSection';
 import MainLayout from '../layouts/MainLayout';
 import styled from 'styled-components';
 import FileDropzone from '../components/FileDropzone';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { State } from '../state';
 
 const FormGroup = styled.div<{align ?: string}>`
     box-shadow: rgb(0 0 0 / 10%) 0px 0.0625rem 0.125rem, rgb(0 0 0 / 15%) 0px 0.25rem 1rem -0.125rem;
@@ -73,7 +75,49 @@ const FormAction = styled.div`
     }
 `
 
+const UploadSongButton = styled.button`
+    display: block;
+    margin: 1.5rem auto 1.25rem;
+    font-size: 1.125rem;
+    line-height: 2rem;
+    background-color: rgb(30, 30, 28);
+    color: rgb(255, 255, 255);
+    padding: 0.75rem 2rem;
+    font-weight: 500;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease 0s;
+    outline: none !important;
+    &:hover {
+        background-color: #f7f8fa;
+        color: rgb(30, 30, 28);
+    }
+`
+
 const UploadSongs = () => {
+    const state = useSelector((state: State) => state.files)
+
+    const uploadSong = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        if(state.isUploading)
+            return;
+        
+        if(!validateFields()) {
+            console.log('failed')
+            return
+        }
+            
+        
+        console.log('test')
+    }
+
+    const validateFields = () => {
+        if(state.songFile.length === 0 || state.artworkFile.length === 0)
+            return false
+
+        
+        return true
+    }
+
     return (
         <MainLayout>
             <Helmet>
@@ -87,15 +131,15 @@ const UploadSongs = () => {
                     <FormGroupContent>
                         <FormInput>
                             <label>Song name</label>
-                            <input type='Test' />
+                            <input name="song-name" type='text' required/>
                         </FormInput>
                         <FormInput>
                             <label>Artist name</label>
-                            <input type='Test' />
+                            <input name="artist-name" type='text' required/>
                         </FormInput>
                         <FormInput>
                             <label>Featured Artist</label>
-                            <input type='Test' />
+                            <input name="feature-artist" type='text' required/>
                         </FormInput>
                     </FormGroupContent>
                 </FormGroup>
@@ -109,6 +153,7 @@ const UploadSongs = () => {
                     </FormGroupContent>
                 </FormGroup>
                 <FormAction>
+                    <UploadSongButton onClick={uploadSong}>Upload Song</UploadSongButton>
                     <p className='disclaimer'>*By uploading, you confirm that your sounds comply with our <Link to='legal/terms'>Terms of Use</Link> and you don't infringe anyone else's rights.</p>
                 </FormAction>
             </CustomSection>

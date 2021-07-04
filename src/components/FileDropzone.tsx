@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {useDropzone, FileWithPath} from 'react-dropzone';
 import styled from 'styled-components';
 import { Music } from 'react-feather';
+import { useDispatch } from 'react-redux';
+import { bindActionCreators } from '@reduxjs/toolkit';
+import { actionCreators } from '../state';
 
 export interface Props {
     label ?: string;
@@ -29,6 +32,7 @@ const DropzoneContainer = styled.div`
     border-radius: .25rem;
     padding: 1rem;
     text-align: center;
+    cursor: pointer;
     em {
         font-size: .85rem;
     }
@@ -74,18 +78,34 @@ const FileInfo = styled.div`
 `
 
 const FileDropzone: React.FC<Props> = ({label, name, message, type}) => {
-    const {
-        acceptedFiles,
-        getRootProps,
-        getInputProps
-      } = useDropzone({
-        accept: type === 'audio' ? 'audio/*' : 'image/*',
-        maxFiles:1,
-        multiple: false
-      });
+    const dispatch = useDispatch()
+    const { addSongFile, addArtworkFile, setIsUploading } = bindActionCreators(actionCreators, dispatch)
 
-      const acceptedFileItems = acceptedFiles.map((file: FileWithPath) => (
-        <FilePreview>
+    const onDropAccepted = (files:Array<File>) => {
+        if (type === 'audio')
+            addSongFile(files[0])
+
+        if (type === 'image')
+            addArtworkFile(files[0])
+
+        setIsUploading()
+    }
+
+    const {
+            acceptedFiles,
+            getRootProps,
+            getInputProps
+        } = useDropzone({
+            accept: type === 'audio' ? 'audio/*' : 'image/*',
+            maxFiles:1,
+            multiple: false,
+            onDropAccepted: onDropAccepted
+        });
+
+    
+
+    const acceptedFileItems = acceptedFiles.map((file: FileWithPath, index: number) => (
+        <FilePreview key={`${type}-${index}`}>
             <FileIcon>
                 {type=== 'audio' && (<Music width="2rem" height="2rem" />)}
                 {type=== 'image' &&
@@ -96,7 +116,7 @@ const FileDropzone: React.FC<Props> = ({label, name, message, type}) => {
                 <h5 className='file-size'>{file.size} bytes</h5>
             </FileInfo>
         </FilePreview>
-      ));
+    ));
 
     return (
         <Dropzone>
