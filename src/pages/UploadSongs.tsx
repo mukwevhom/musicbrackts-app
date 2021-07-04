@@ -73,13 +73,13 @@ const FormAction = styled.div`
     }
 `
 
-const UploadMusic = () => {
+const UploadSongs = () => {
     return (
         <MainLayout>
             <Helmet>
                 <title>MusicBrackts | Upload Music</title>
             </Helmet>
-            <CustomSection headerText="Submit your music" subHeaderText="Complete the fields below" alignHeader="center" >
+            <CustomSection headerText="Submit your song" subHeaderText="Complete the fields below" alignHeader="center" >
                 <FormGroup align="center">
                     <FormGroupHeader>
                         <h2>Basic Info</h2>
@@ -116,4 +116,4 @@ const UploadMusic = () => {
     )
 }
 
-export default UploadMusic;
+export default UploadSongs;

@@ -24,7 +24,7 @@ const Header = () => {
                             <StyledLink to='artists' >Artists</StyledLink>
                         </li>
                         <li>
-                            <StyledLinkAsButtom to='upload-music' >Upload Music</StyledLinkAsButtom>
+                            <StyledLinkAsButtom to='upload' >Upload Song</StyledLinkAsButtom>
                         </li>
                     </ul>
                 </div>
