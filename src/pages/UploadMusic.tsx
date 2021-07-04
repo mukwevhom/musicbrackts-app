@@ -3,6 +3,8 @@ import {Helmet} from "react-helmet";
 import CustomSection from '../components/CustomSection';
 import MainLayout from '../layouts/MainLayout';
 import styled from 'styled-components';
+import FileDropzone from '../components/FileDropzone';
+import { Link } from 'react-router-dom';
 
 const FormGroup = styled.div<{align ?: string}>`
     box-shadow: rgb(0 0 0 / 10%) 0px 0.0625rem 0.125rem, rgb(0 0 0 / 15%) 0px 0.25rem 1rem -0.125rem;
@@ -12,6 +14,12 @@ const FormGroup = styled.div<{align ?: string}>`
     margin: ${props => props.align === 'center' ? '0 auto' : '0'};
     & + div {
         margin-top:24px;
+    }
+    @media (max-width: 575px) {
+        width: 100%;
+    }
+    @media (max-width: 575px) {
+        width: 100%;
     }
 `
 
@@ -53,6 +61,18 @@ const FormInput = styled.div`
     }
 `
 
+const FormAction = styled.div`
+    text-align: center;
+    .disclaimer {
+        font-size: .75rem;
+        line-height: 1.25;
+        a {
+            text-decoration: underline;
+            color: #1e1e1c;
+        }
+    }
+`
+
 const UploadMusic = () => {
     return (
         <MainLayout>
@@ -84,9 +104,13 @@ const UploadMusic = () => {
                         <h2>Files</h2>
                     </FormGroupHeader>
                     <FormGroupContent>
-                        
+                        <FileDropzone type='audio' label='Song File' name='songFile' message='Only audio files are accepted' />
+                        <FileDropzone type='image' label='Artwork' name='artworkFile' message='Only images are accepted' />
                     </FormGroupContent>
                 </FormGroup>
+                <FormAction>
+                    <p className='disclaimer'>*By uploading, you confirm that your sounds comply with our <Link to='legal/terms'>Terms of Use</Link> and you don't infringe anyone else's rights.</p>
+                </FormAction>
             </CustomSection>
         </MainLayout>
     )
