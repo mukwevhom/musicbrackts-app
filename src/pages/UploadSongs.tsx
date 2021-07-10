@@ -6,7 +6,9 @@ import styled from 'styled-components';
 import FileDropzone from '../components/FileDropzone';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { State } from '../state';
+import { State, actionCreators } from '../state';
+import { useDispatch } from 'react-redux';
+import { bindActionCreators } from '@reduxjs/toolkit';
 
 const FormGroup = styled.div<{align ?: string}>`
     box-shadow: rgb(0 0 0 / 10%) 0px 0.0625rem 0.125rem, rgb(0 0 0 / 15%) 0px 0.25rem 1rem -0.125rem;
@@ -60,6 +62,9 @@ const FormInput = styled.div`
             box-shadow: 0 0 0.125rem 0.125rem rgba(23,95,255,0.15);
             border-color: #175fff;
         }
+        &.is-invalid {
+            border-color: red;
+        }
     }
 `
 
@@ -93,29 +98,82 @@ const UploadSongButton = styled.button`
     }
 `
 
+export interface SongInfo {
+    'song-name' : string;
+    'artist-name' : string,
+    'featured-artist' ?: string
+}
+
 const UploadSongs = () => {
+    const dispatch = useDispatch()
+    const { removeSongFile, removeArtworkFile, setIsUploading } = bindActionCreators(actionCreators, dispatch)
     const state = useSelector((state: State) => state.files)
+
+    let songInfo: SongInfo = {
+        'song-name': '',
+        'artist-name': '',
+    }
 
     const uploadSong = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        if(state.isUploading)
-            return;
         
-        if(!validateFields()) {
-            console.log('failed')
+        if(state.isUploading || !validateFields())
             return
-        }
             
-        
-        console.log('test')
+        let formData = new FormData()
+
+        formData.append('songName', songInfo['song-name'])
+        formData.append('artist', songInfo['artist-name'])
+        formData.append('songFile', state.songFile[0], state.songFile[0].name)
+        formData.append('artworkFile', state.artworkFile[0], state.songFile[0].name)
+
+        if(songInfo['featured-artist']) {
+            formData.append('featuredArtist', songInfo['featured-artist'])
+        }
+
+        setIsUploading()
+
+        fetch('http://6656f03da285.ngrok.io/upload_song', {
+                mode: 'no-cors',
+                method:'POST',
+                body:formData
+            }).then(res => {
+                // if(!res.ok)
+                //     console.log(res.statusText)
+
+                console.log(res)
+                setIsUploading()
+                removeArtworkFile()
+                removeSongFile()
+            }).catch(e => {
+                console.log(e)
+            })
     }
 
     const validateFields = () => {
+        let hasInvalidField: boolean = false
         if(state.songFile.length === 0 || state.artworkFile.length === 0)
-            return false
+            hasInvalidField = true
+
+       document.querySelectorAll('input[type=text]')
+            .forEach((e: Element) => {
+                e.classList.remove("is-invalid")
+
+                if(!(e as HTMLInputElement).checkValidity()) {
+                    e.classList.add("is-invalid")
+                    hasInvalidField = true
+                } else {
+                    if((e as HTMLInputElement).value) {
+                        songInfo = {
+                            ...songInfo,
+                            [(e as HTMLInputElement).name]: (e as HTMLInputElement).value
+                        }
+                    }
+                }
+            })
 
         
-        return true
+        return !hasInvalidField
     }
 
     return (
@@ -130,16 +188,16 @@ const UploadSongs = () => {
                     </FormGroupHeader>
                     <FormGroupContent>
                         <FormInput>
-                            <label>Song name</label>
+                            <label>Song Name</label>
                             <input name="song-name" type='text' required/>
                         </FormInput>
                         <FormInput>
-                            <label>Artist name</label>
+                            <label>Artist Name</label>
                             <input name="artist-name" type='text' required/>
                         </FormInput>
                         <FormInput>
                             <label>Featured Artist</label>
-                            <input name="feature-artist" type='text' required/>
+                            <input name="featured-artist" type='text' />
                         </FormInput>
                     </FormGroupContent>
                 </FormGroup>

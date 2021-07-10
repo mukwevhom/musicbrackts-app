@@ -79,7 +79,7 @@ const FileInfo = styled.div`
 
 const FileDropzone: React.FC<Props> = ({label, name, message, type}) => {
     const dispatch = useDispatch()
-    const { addSongFile, addArtworkFile, setIsUploading } = bindActionCreators(actionCreators, dispatch)
+    const { addSongFile, addArtworkFile } = bindActionCreators(actionCreators, dispatch)
 
     const onDropAccepted = (files:Array<File>) => {
         if (type === 'audio')
@@ -87,8 +87,20 @@ const FileDropzone: React.FC<Props> = ({label, name, message, type}) => {
 
         if (type === 'image')
             addArtworkFile(files[0])
+    }
 
-        setIsUploading()
+    const convertFileSize = (fileSize: number) => {
+        let sizeInfo = '';
+
+        if(fileSize/1048576>1){
+            sizeInfo = (fileSize/1048576).toFixed(2)+' MB';
+        } else if(fileSize/1024>1){
+            sizeInfo = (fileSize/1024).toFixed(2)+' KB';
+        } else {
+            sizeInfo = fileSize+' bytes';
+        }
+    
+        return sizeInfo;
     }
 
     const {
@@ -102,8 +114,6 @@ const FileDropzone: React.FC<Props> = ({label, name, message, type}) => {
             onDropAccepted: onDropAccepted
         });
 
-    
-
     const acceptedFileItems = acceptedFiles.map((file: FileWithPath, index: number) => (
         <FilePreview key={`${type}-${index}`}>
             <FileIcon>
@@ -113,7 +123,7 @@ const FileDropzone: React.FC<Props> = ({label, name, message, type}) => {
             </FileIcon>
             <FileInfo>
                 <h5 className='file-name'>{file.path}</h5>
-                <h5 className='file-size'>{file.size} bytes</h5>
+                <h5 className='file-size'>{convertFileSize(file.size)} bytes</h5>
             </FileInfo>
         </FilePreview>
     ));
