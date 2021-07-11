@@ -1,15 +1,28 @@
 import React from 'react'
 import { Card, CardAnchor, CardImage, CardInfo } from './CardStyledComponents'
 
-const SongCard = () => {
+export interface SongObject {
+    'id' : string;
+    'songname' : string;
+    'featuredartist' ?: string;
+    'fileextension': string;
+    'artist': string;
+    'createdAt': Date;
+}
+
+export interface Props {
+    songInfo: SongObject
+}
+
+const SongCard:React.FC<Props> = ({songInfo}) => {
     return (<Card>
-        <CardAnchor href="/song/test">
+        <CardAnchor href={`/song/${songInfo.id}`}>
             <CardImage>
-                <img src='http://placekitten.com/300/300' alt='Artist Name - Song Name' />
+                <img src={`http://localhost:5000/file/artwork/${songInfo.id}`} alt={`${songInfo.artist}- ${songInfo.songname}`} />
             </CardImage>
             <CardInfo >
-                <h4>Song Name</h4>
-                <h4>Artist Name</h4>
+                <h4>{songInfo.songname}{songInfo.featuredartist && (` (feat ${songInfo.featuredartist})`)}</h4>
+                <h4>{songInfo.artist}</h4>
             </CardInfo>
         </CardAnchor>
     </Card>)

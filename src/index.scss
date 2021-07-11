@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url(https://mukwevhom.bitbucket.io/fonts/fonts.css);
+* {
+    font-family:'Calibre','Roboto',Arial,sans-serif !important;
+    font-size: 1.1rem;
+}

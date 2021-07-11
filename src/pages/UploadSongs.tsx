@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { State, actionCreators } from '../state';
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
+import { Loader } from 'react-feather';
 
 const FormGroup = styled.div<{align ?: string}>`
     box-shadow: rgb(0 0 0 / 10%) 0px 0.0625rem 0.125rem, rgb(0 0 0 / 15%) 0px 0.25rem 1rem -0.125rem;
@@ -96,12 +97,24 @@ const UploadSongButton = styled.button`
         background-color: #f7f8fa;
         color: rgb(30, 30, 28);
     }
+    &.uploading {
+        background-color: #f7f8fa !important;
+        color: rgb(30, 30, 28) !important;
+        svg {
+            display: inline-block;
+            vertical-align: bottom;
+            animation-name: spin;
+            animation-duration: 5000ms;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear; 
+        }
+    }
 `
 
 export interface SongInfo {
     'song-name' : string;
-    'artist-name' : string,
-    'featured-artist' ?: string
+    'artist-name' : string;
+    'featured-artist' ?: string;
 }
 
 const UploadSongs = () => {
@@ -116,7 +129,7 @@ const UploadSongs = () => {
 
     const uploadSong = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        
+
         if(state.isUploading || !validateFields())
             return
             
@@ -133,15 +146,14 @@ const UploadSongs = () => {
 
         setIsUploading()
 
-        fetch('http://6656f03da285.ngrok.io/upload_song', {
-                mode: 'no-cors',
+        fetch('http://localhost:5000/upload_song', {
                 method:'POST',
                 body:formData
-            }).then(res => {
+            }).then(res => res.json())
+            .then(res => {
                 // if(!res.ok)
                 //     console.log(res.statusText)
 
-                console.log(res)
                 setIsUploading()
                 removeArtworkFile()
                 removeSongFile()
@@ -211,7 +223,12 @@ const UploadSongs = () => {
                     </FormGroupContent>
                 </FormGroup>
                 <FormAction>
-                    <UploadSongButton onClick={uploadSong}>Upload Song</UploadSongButton>
+                    <UploadSongButton onClick={uploadSong} className={`${state.isUploading ? 'uploading': ''}`}>
+                        { state.isUploading && (
+                            <React.Fragment><Loader /> Uploading</React.Fragment>)}
+                        { !state.isUploading && (
+                            <React.Fragment>Upload Song</React.Fragment>)}
+                    </UploadSongButton>
                     <p className='disclaimer'>*By uploading, you confirm that your sounds comply with our <Link to='legal/terms'>Terms of Use</Link> and you don't infringe anyone else's rights.</p>
                 </FormAction>
             </CustomSection>

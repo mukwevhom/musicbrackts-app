@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {Helmet} from "react-helmet";
 import MainLayout from '../layouts/MainLayout';
+import CustomSection from '../components/CustomSection';
+import SongsList from '../components/SongsList';
+import PageHeader from '../components/PageHeader';
 
 const Songs = () => {
     const [songsData, setSongsData] = useState([] as any);
@@ -13,7 +16,12 @@ const Songs = () => {
 
     const fetchSongs = async () => {
         try {
-            let songs = await fetch(`http://localhost:5000/songs?count=5`)
+            let response = await fetch(`http://localhost:5000/songs`)
+            if(!response.ok)
+                return []
+
+            
+            let songs = await response.json()
 
             return songs
         } catch (e) {
@@ -27,8 +35,10 @@ const Songs = () => {
             <Helmet>
                 <title>Songs | MusicBrackts</title>
             </Helmet>
-            Songs
-            {songsData}
+            <PageHeader title="Songs" />
+            <CustomSection showHeader={false}>
+                <SongsList songs={songsData} />
+            </CustomSection>
         </MainLayout>
     )
 }

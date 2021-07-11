@@ -18,13 +18,13 @@ const Header = () => {
                 <div className="header-nav">
                     <ul>
                         <li>
-                            <StyledLink to='songs' >Songs</StyledLink>
+                            <StyledLink to='/songs' >Songs</StyledLink>
                         </li>
                         <li>
-                            <StyledLink to='artists' >Artists</StyledLink>
+                            <StyledLink to='/artists' >Artists</StyledLink>
                         </li>
                         <li>
-                            <StyledLinkAsButtom to='upload' >Upload Song</StyledLinkAsButtom>
+                            <StyledLinkAsButtom to='/upload' >Upload Song</StyledLinkAsButtom>
                         </li>
                     </ul>
                 </div>
