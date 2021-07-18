@@ -48,7 +48,7 @@ export interface Props {
 }
 
 const UploadCompleteModal: React.FC<Props> = ({songId}) => {
-    let songUrl = `http://localhost:3000/song/${songId}`
+    let songUrl = `${process.env.REACT_APP_DOMAIN}/song/${songId}`
     return (
         <Modal>
             <ModalHeader>

@@ -71,8 +71,7 @@ const UploadSongs = () => {
 
     const uploadSong = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        setSongId('123456')
-        setUploadComplete(true)
+
         if(state.isUploading || !validateFields())
             return
             
@@ -89,13 +88,16 @@ const UploadSongs = () => {
 
         setIsUploading()
 
-        fetch('http://localhost:5000/upload_song', {
+        fetch(`${process.env.REACT_APP_API_URL}/upload_song`, {
                 method:'POST',
                 body:formData
             }).then(res => res.json())
             .then(res => {
-                // if(!res.ok)
-                //     console.log(res.statusText)
+                if(res.statusCode === 500){
+                    setUploadComplete(true)
+                    return
+                }
+                
                 setSongId(res.id)
                 setUploadComplete(true)
                 setIsUploading()

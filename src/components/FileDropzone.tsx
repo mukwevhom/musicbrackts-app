@@ -123,7 +123,7 @@ const FileDropzone: React.FC<Props> = ({label, name, message, type}) => {
             </FileIcon>
             <FileInfo>
                 <h5 className='file-name'>{file.path}</h5>
-                <h5 className='file-size'>{convertFileSize(file.size)} bytes</h5>
+                <h5 className='file-size'>{convertFileSize(file.size)}</h5>
             </FileInfo>
         </FilePreview>
     ));

@@ -16,11 +16,10 @@ const Songs = () => {
 
     const fetchSongs = async () => {
         try {
-            let response = await fetch(`http://localhost:5000/songs`)
+            let response = await fetch(`${process.env.REACT_APP_API_URL}/songs`)
             if(!response.ok)
                 return []
 
-            
             let songs = await response.json()
 
             return songs

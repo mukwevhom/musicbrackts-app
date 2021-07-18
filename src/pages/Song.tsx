@@ -78,7 +78,6 @@ const Song = () => {
 
     useEffect(() => {
         fetchSong().then((res) => {
-            console.log(res)
             setSongData(res)
         }).catch(error => {
             console.log(error)
@@ -87,7 +86,7 @@ const Song = () => {
 
     const fetchSong = async () => {
         try {
-            let response = await fetch(`http://localhost:5000/song/${songId}`)
+            let response = await fetch(`${process.env.REACT_APP_API_URL}/song/${songId}`)
             if(!response.ok)
                 return {}
 
@@ -100,25 +99,46 @@ const Song = () => {
         }
     }
 
+    const convertFileSize = () => {
+        let fileSize = songData.fileSize ?? 0
+        let sizeInfo = '';
+
+        if(fileSize/1048576>1){
+            sizeInfo = (fileSize/1048576).toFixed(2)+' MB';
+        } else if(fileSize/1024>1){
+            sizeInfo = (fileSize/1024).toFixed(2)+' KB';
+        } else {
+            sizeInfo = fileSize+' bytes';
+        }
+    
+        return sizeInfo;
+    }
+
+    const addDefaultSrc = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+        e.currentTarget.src = '/musicbrackts-logo.png'
+    }
+
     return (
         <MainLayout>
             <Helmet>
-                <title>{`${songData.songName} - ${songData.artist}| MusicBrackts`}</title>
+                <title>{`${songData.songName ? `${songData.songName} - ${songData.artist}` : 'Loading...'} | MusicBrackts`}</title>
             </Helmet>
             <CustomSection showHeader={false}>
-                <SongView>
-                    <SongArtwork>
-                        <img src={`http://localhost:5000/file/artwork/${songId}`} alt={`${songData.artist} - ${songData.songName}`} />
-                    </SongArtwork>
-                    <SongMetadata>
-                        <h1>{songData.songName}{songData.featuredartist && (` (feat ${songData.featuredartist})`)}</h1>
-                        <span>{songData.artist}</span>
-                        <SongStats>{songData.downloads} Downloads · {`2.3 MB`} · {songData.created}</SongStats>
-                    </SongMetadata>
-                    <SongAction>
-                        <DownloadButton href={`http://localhost:5000/song/${songId}/download`}>Download</DownloadButton>
-                    </SongAction>
-                </SongView>
+                { Object.keys(songData).length > 0 && (
+                    <SongView>
+                        <SongArtwork>
+                            <img src={`${process.env.REACT_APP_API_URL}/file/artwork/${songId}`} alt={`${songData.artist} - ${songData.songName}`} onError={addDefaultSrc} />
+                        </SongArtwork>
+                        <SongMetadata>
+                            <h1>{songData.songName}{songData.featuredartist && (` (feat ${songData.featuredartist})`)}</h1>
+                            <span>{songData.artist}</span>
+                            <SongStats>{songData.downloads} Downloads · {convertFileSize()} · {songData.created}</SongStats>
+                        </SongMetadata>
+                        <SongAction>
+                            <DownloadButton href={`${process.env.REACT_APP_API_URL}/song/${songId}/download`}>Download</DownloadButton>
+                        </SongAction>
+                    </SongView>
+                )}
             </CustomSection>
         </MainLayout>
     )

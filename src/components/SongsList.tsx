@@ -57,7 +57,7 @@ const SongsList:React.FC<Props> = ({songs}) => {
                     <Music width="2rem" height="2rem" />
                 </NoSongsIcon>
                 <NoSongsTitle>No songs found</NoSongsTitle>
-                <NoSongsMessage>Unfortunately, we can't find any song. Please refresh or try again later.</NoSongsMessage>
+                <NoSongsMessage>Unfortunately, we can't find any song.<br />Please refresh or try again later.</NoSongsMessage>
             </NoSongs>
         )
     }

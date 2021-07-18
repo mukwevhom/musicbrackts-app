@@ -15,10 +15,15 @@ export interface Props {
 }
 
 const SongCard:React.FC<Props> = ({songInfo}) => {
+
+    const addDefaultSrc = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+        e.currentTarget.src = '/musicbrackts-logo.png'
+    }
+
     return (<Card>
         <CardAnchor href={`/song/${songInfo.id}`}>
             <CardImage>
-                <img src={`http://localhost:5000/file/artwork/${songInfo.id}`} alt={`${songInfo.artist}- ${songInfo.songname}`} />
+                <img src={`${process.env.REACT_APP_API_URL}/file/artwork/${songInfo.id}`} onError={addDefaultSrc} alt={`${songInfo.artist}- ${songInfo.songname}`} />
             </CardImage>
             <CardInfo >
                 <h4>{songInfo.songname}{songInfo.featuredartist && (` (feat ${songInfo.featuredartist})`)}</h4>

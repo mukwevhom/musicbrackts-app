@@ -17,7 +17,7 @@ const Home = () => {
 
     const fetchSongs = async () => {
         try {
-            let response = await fetch(`http://localhost:5000/songs?count=5`)
+            let response = await fetch(`${process.env.REACT_APP_API_URL}/songs?count=5`)
             if(!response.ok)
                 return []
 

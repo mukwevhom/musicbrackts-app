@@ -39,7 +39,7 @@ body {
                 .search-form {
                     @apply flex gap-1 bg-white rounded-md p-1 border border-gray-300 shadow;
                     .search-input {
-                        @apply flex-1 outline-none h-10 text-base;
+                        @apply flex-1 outline-none h-10 text-base pl-3;
                     }
                     .search-submit {
                         @apply w-10 text-white rounded-md outline-none;
