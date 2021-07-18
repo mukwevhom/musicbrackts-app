@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {Helmet} from "react-helmet";
 import CustomSection from '../components/CustomSection';
 import MainLayout from '../layouts/MainLayout';
@@ -10,76 +10,8 @@ import { State, actionCreators } from '../state';
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { Loader } from 'react-feather';
-
-const FormGroup = styled.div<{align ?: string}>`
-    box-shadow: rgb(0 0 0 / 10%) 0px 0.0625rem 0.125rem, rgb(0 0 0 / 15%) 0px 0.25rem 1rem -0.125rem;
-    transition: box-shadow 0.5s ease-in-out;
-    width: 50%;
-    padding: .75rem;
-    margin: ${props => props.align === 'center' ? '0 auto' : '0'};
-    & + div {
-        margin-top:24px;
-    }
-    @media (max-width: 575px) {
-        width: 100%;
-    }
-    @media (max-width: 575px) {
-        width: 100%;
-    }
-`
-
-const FormGroupHeader = styled.div`
-    h2 {
-        font-size: 1.2rem;
-        font-weight: 500;
-        margin-bottom: 1.75rem;
-    }
-`
-
-const FormGroupContent = styled.div`
-
-`
-
-const FormInput = styled.div`
-    &:not(:first-child) {
-        margin-top: 1.5rem;
-    }
-    label {
-        margin-bottom: .5rem;
-        font-size: .75rem;
-        line-height: 1.25;
-        display: block;
-    }
-    input {
-        display: block;
-        border-radius: .25rem;
-        box-shadow: 0 0 0 0 transparent;
-        border: .0625rem solid rgb(0 0 0 / 10%);
-        font-size: .875rem;
-        height: 3rem;
-        width: 100%;
-        padding: 0 1rem;
-        &:focus {
-            box-shadow: 0 0 0.125rem 0.125rem rgba(23,95,255,0.15);
-            border-color: #175fff;
-        }
-        &.is-invalid {
-            border-color: red;
-        }
-    }
-`
-
-const FormAction = styled.div`
-    text-align: center;
-    .disclaimer {
-        font-size: .75rem;
-        line-height: 1.25;
-        a {
-            text-decoration: underline;
-            color: #1e1e1c;
-        }
-    }
-`
+import UploadCompleteModal from '../components/UploadCompleteModal';
+import { FormGroup, FormGroupHeader, FormGroupContent, FormInput, FormAction } from '../components/FormStyledComponents'
 
 const UploadSongButton = styled.button`
     display: block;
@@ -121,15 +53,26 @@ const UploadSongs = () => {
     const dispatch = useDispatch()
     const { removeSongFile, removeArtworkFile, setIsUploading } = bindActionCreators(actionCreators, dispatch)
     const state = useSelector((state: State) => state.files)
+    const [uploadComplete, setUploadComplete] = useState(false as boolean);
+    const [songId, setSongId] = useState("" as string);
 
     let songInfo: SongInfo = {
         'song-name': '',
         'artist-name': '',
     }
 
+    useEffect(() => {
+        if(uploadComplete) {
+            document.querySelector('body')?.classList.add('upload-complete')
+        } else {
+            document.querySelector('body')?.classList.remove('upload-complete')
+        }
+    }, [uploadComplete])
+
     const uploadSong = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-
+        setSongId('123456')
+        setUploadComplete(true)
         if(state.isUploading || !validateFields())
             return
             
@@ -153,7 +96,8 @@ const UploadSongs = () => {
             .then(res => {
                 // if(!res.ok)
                 //     console.log(res.statusText)
-
+                setSongId(res.id)
+                setUploadComplete(true)
                 setIsUploading()
                 removeArtworkFile()
                 removeSongFile()
@@ -232,6 +176,10 @@ const UploadSongs = () => {
                     <p className='disclaimer'>*By uploading, you confirm that your sounds comply with our <Link to='legal/terms'>Terms of Use</Link> and you don't infringe anyone else's rights.</p>
                 </FormAction>
             </CustomSection>
+            { uploadComplete &&
+                (<UploadCompleteModal songId={songId}/>)
+            }
+            
         </MainLayout>
     )
 }

@@ -74,13 +74,16 @@ const Song = () => {
     const [songId] =useState(window.location.pathname.split('/').pop())
     const [songData, setSongData] = useState({} as any);
 
-    console.log(window.location.pathname.split('/').pop())
+    document.querySelector('body')?.classList.remove('upload-complete')
 
     useEffect(() => {
         fetchSong().then((res) => {
+            console.log(res)
             setSongData(res)
+        }).catch(error => {
+            console.log(error)
         });
-    }, []);
+    }, [songId]);
 
     const fetchSong = async () => {
         try {
@@ -93,8 +96,7 @@ const Song = () => {
 
             return songs
         } catch (e) {
-            console.log(e)
-            return {}
+            window.location.href = '/songs'
         }
     }
 

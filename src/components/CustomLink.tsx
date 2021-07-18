@@ -34,6 +34,7 @@ const StyledLinkAsButtom = styled(StyledLink)`
     background-color: rgb(30, 30, 28);
     color: rgb(255, 255, 255);
     padding: 0.5rem;
+    text-align: center;
 `
 
 export { StyledLink, StyledLinkAsButtom };
