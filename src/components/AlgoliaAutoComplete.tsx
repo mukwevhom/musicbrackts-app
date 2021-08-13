@@ -6,15 +6,16 @@ import { Hit } from '@algolia/client-search';
 import SearchSongItem from './SearchSongItem';
 import { Search } from 'react-feather';
 
-const appId = 'J8IO1T0ZQE';
-const apiKey = '3d0ae58561bbdc5111784bd77f8bf2d6';
+const appId: string = process.env?.REACT_APP_APP_ID ?? '';
+const apiKey: string = process.env?.REACT_APP_SEARCH_API_KEY ?? '';
+const indexName: string = process.env?.REACT_APP_INDEX_NAME ?? ''
+
 const searchClient = algoliasearch(appId, apiKey);
 
 type AutocompleteItem = Hit<{
-    song_link: string;
-    aa_link: string;
-    song_name: string;
-    artist_name: string;
+    objectID: string;
+    songName: string;
+    artistName: string;
 }>;
 
 const AlgoliaAutoComplete = (props: Partial<AutocompleteOptions<AutocompleteItem>>) => {
@@ -42,7 +43,7 @@ const AlgoliaAutoComplete = (props: Partial<AutocompleteOptions<AutocompleteItem
                                 searchClient,
                                 queries: [
                                     {
-                                        indexName: 'dev_MUSIC',
+                                        indexName,
                                         query,
                                     },
                                 ],
