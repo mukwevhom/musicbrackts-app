@@ -20,9 +20,9 @@ const Header = () => {
                         <li>
                             <StyledLink to='/songs' >Songs</StyledLink>
                         </li>
-                        <li>
+                        {/* <li>
                             <StyledLink to='/artists' >Artists</StyledLink>
-                        </li>
+                        </li> */}
                         <li>
                             <StyledLinkAsButtom to='/upload' >Upload Song</StyledLinkAsButtom>
                         </li>

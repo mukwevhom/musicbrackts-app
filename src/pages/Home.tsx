@@ -17,7 +17,7 @@ const Home = () => {
 
     const fetchSongs = async () => {
         try {
-            let response = await fetch(`${process.env.REACT_APP_API_URL}/songs?count=5`)
+            let response = await fetch(`${process.env.REACT_APP_API_URL}/songs?count=5&order_by=createdAt&direction=DESC`)
             if(!response.ok)
                 return []
 
@@ -26,7 +26,6 @@ const Home = () => {
 
             return songs
         } catch (e) {
-            console.log(e)
             return []
         }
     }
@@ -45,7 +44,7 @@ const Home = () => {
             <CustomSection headerText="Latest Uploads" viewMore='/songs'>
                 <SongsList songs={songsData} />
             </CustomSection>
-            <CustomSection headerText="Top Artist" viewMore='/artists' backgroundColor='rgb(30, 30, 28)'>
+            {/* <CustomSection headerText="Top Artist" viewMore='/artists' backgroundColor='rgb(30, 30, 28)'>
                 <ListGrid>
                     <ArtistCard />
                     <ArtistCard />
@@ -53,7 +52,7 @@ const Home = () => {
                     <ArtistCard />
                     <ArtistCard />
                 </ListGrid>
-            </CustomSection>
+            </CustomSection> */}
         </MainLayout>
         
     )
