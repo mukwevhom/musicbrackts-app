@@ -1,8 +1,10 @@
 import { combineReducers } from "redux";
 import filesReducer from "./filesReducer";
+import songsPaginationReducer from "./songsPaginationReducer";
 
 const reducers = combineReducers({
-    files: filesReducer
+    files: filesReducer,
+    songsPagination: songsPaginationReducer
 })
 
 export default reducers
