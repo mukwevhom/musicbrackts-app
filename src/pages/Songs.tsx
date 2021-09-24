@@ -1,4 +1,4 @@
-import React, {Suspense, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Helmet} from "react-helmet";
 import MainLayout from '../layouts/MainLayout';
 import CustomSection from '../components/CustomSection';
