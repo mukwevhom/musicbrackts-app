@@ -9,7 +9,7 @@ const ListGrid = styled.div`
     justify-content: left;
     @media (max-width: 576px) {
         grid-auto-flow: row;
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(auto-fill,minmax(calc((100% - 1rem) / 2),1fr));
     }
 `
 
