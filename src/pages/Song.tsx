@@ -78,6 +78,9 @@ const Song = () => {
 
     useEffect(() => {
         fetchSong().then((res) => {
+            if(Object.keys(res).length === 0) {
+                window.location.href = '/'
+            }
             setSongData(res)
         }).catch(error => {
             console.log(error)

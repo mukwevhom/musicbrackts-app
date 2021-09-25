@@ -2,7 +2,8 @@ import React from 'react';
 import {
     BrowserRouter as Router,
     Switch,
-    Route
+    Route,
+    Redirect
   } from "react-router-dom";
 
 import './App.scss';
@@ -23,6 +24,7 @@ const App = () => {
                 <Route path="/artists" exact children={<Artists />} />
                 <Route path="/artist/:id" exact children={<Artist />} />
                 <Route path="/upload" exact children={<UploadSongs />} />
+                <Redirect to="/" />
             </Switch>
         </Router>
     );
