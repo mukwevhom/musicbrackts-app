@@ -5,9 +5,18 @@ import {
     removeSongFile,
     setIsUploading
 } from './files'
+
 import {
     changeSongsPage
 } from './songsPagination'
+
+import {
+    pauseSong,
+    playSong,
+    setSongDuration,
+    setSongCurrTime,
+    setSongLoading
+} from './audioPlayer'
 
 export {
     addSongFile,
@@ -15,5 +24,10 @@ export {
     addArtworkFile,
     removeSongFile,
     setIsUploading,
-    changeSongsPage
+    changeSongsPage,
+    pauseSong,
+    playSong,
+    setSongDuration,
+    setSongCurrTime,
+    setSongLoading
 }

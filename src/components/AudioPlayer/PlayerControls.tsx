@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import { Pause, Play, SkipBack, SkipForward } from 'react-feather';
+import { Pause, Play, SkipBack, SkipForward, RotateCw } from 'react-feather';
+import { useSelector, useDispatch } from 'react-redux';
+import { bindActionCreators } from '@reduxjs/toolkit';
+import { State, actionCreators } from '../../state';
 
 const StyledPlayerControls = styled.div`
     display: flex;
@@ -23,25 +26,47 @@ const StyledSkipControl = styled.div`
 
 const StyledPlayControl = styled.div`
     cursor: pointer;
+    &.song-loading {
+        svg {
+            display: inline-block;
+            vertical-align: bottom;
+            animation-name: spin;
+            animation-duration: 900ms;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear; 
+        }
+    }
 `
 
 const PlayerControls = () => {
-    const [songPlaying, setSongPlaying] = useState(false as Boolean);
+    const state = useSelector((state: State) => state.audioPlayer)
+    const dispatch = useDispatch()
+    const { pauseSong, playSong } = bindActionCreators(actionCreators, dispatch)
+
+    function formatTime(time: number) {
+        let minutes = Math.floor(time / 60);
+        var seconds = Math.floor(time - minutes * 60).toLocaleString('en-ZA', {minimumIntegerDigits: 2, useGrouping:false});
+
+        return `${minutes}:${seconds}`
+    }
 
     return (
         <StyledPlayerControls>
             <StyledTimeInfo>
-                0:24 / 2:20
+               {formatTime(state.currentTime)} / {formatTime(state.duration)}
             </StyledTimeInfo>
             <StyledSkipControl>
                 <SkipBack />
             </StyledSkipControl>
-            <StyledPlayControl>
-                { songPlaying && (
-                    <Pause size={40} />
+            <StyledPlayControl className={`${state.songLoading ? 'song-loading': ''}`}>
+                { (!state.songLoading && state.songPlaying) && (
+                    <Pause size={40} onClick={() => {pauseSong();}} />
                 )}
-                { !songPlaying && (
-                    <Play size={40} />
+                { (!state.songLoading && !state.songPlaying) && (
+                    <Play size={40} onClick={() => {playSong(state.songId);}} />
+                )}
+                { state.songLoading && (
+                    <RotateCw size={40} />
                 )}
             </StyledPlayControl>
 
