@@ -3,6 +3,9 @@ import {Helmet} from "react-helmet";
 import styled from 'styled-components';
 import CustomSection from '../components/CustomSection';
 import MainLayout from '../layouts/MainLayout';
+import { useDispatch } from 'react-redux';
+import { bindActionCreators } from '@reduxjs/toolkit';
+import { State, actionCreators } from '../state';
 
 const SongView = styled.div`
     display: flex;
@@ -44,12 +47,15 @@ const SongStats = styled.span`
 `
 
 const SongAction = styled.div`
-
+    display: flex;
+    gap: 1rem;
+    @media (max-width: 360px) {
+        flex-direction: column;
+    }
 `
 
 const ActionButton = styled.a`
     display: block;
-    margin: 1.5rem auto 1.25rem;
     font-size: 1.125rem;
     line-height: 2rem;
     padding: 0.75rem 2rem;
@@ -59,6 +65,7 @@ const ActionButton = styled.a`
     outline: none !important;
     background-color: #f7f8fa;
     color: rgb(30, 30, 28);
+    cursor: pointer;
 `
 
 const DownloadButton = styled(ActionButton)`
@@ -73,6 +80,8 @@ const DownloadButton = styled(ActionButton)`
 const Song = () => {
     const [songId] =useState(window.location.pathname.split('/').pop())
     const [songData, setSongData] = useState({} as any);
+    const dispatch = useDispatch()
+    const { playSong } = bindActionCreators(actionCreators, dispatch)
 
     document.querySelector('body')?.classList.remove('upload-complete')
 
@@ -139,6 +148,10 @@ const Song = () => {
                         </SongMetadata>
                         <SongAction>
                             <DownloadButton href={`${process.env.REACT_APP_API_URL}/song/${songId}/download`}>Download</DownloadButton>
+                            {songId && (
+                                <ActionButton onClick={() => {playSong(songId)}}>Play Song</ActionButton>
+                            )}
+                            
                         </SongAction>
                     </SongView>
                 )}
