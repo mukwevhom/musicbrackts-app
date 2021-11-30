@@ -7,7 +7,9 @@ type State = {
     playerActive: boolean,
     duration: number,
     currentTime: number,
-    songLoading: boolean
+    songLoading: boolean,
+    bufferedLength: number,
+    seekTime: number
 }
 
 const initialState = {
@@ -16,7 +18,9 @@ const initialState = {
     playerActive: false,
     duration: 0,
     currentTime: 0,
-    songLoading: false
+    songLoading: false,
+    bufferedLength: 0,
+    seekTime: 0
 }
 
 const audioPlayerReducer = (state: State = initialState, action: Action) => {
@@ -53,7 +57,18 @@ const audioPlayerReducer = (state: State = initialState, action: Action) => {
                 songLoading: action.payload
             }
         }
-        
+        case ActionType.SET_BUFFERED_LENGTH: {
+            return {
+                ...state,
+                bufferedLength: action.payload
+            }
+        }
+        case ActionType.SET_SONG_SEEK_TIME: {
+            return {
+                ...state,
+                seekTime: action.payload
+            }
+        }
         default:
             return state
     }

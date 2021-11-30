@@ -15,7 +15,9 @@ import {
     playSong,
     setSongDuration,
     setSongCurrTime,
-    setSongLoading
+    setSongLoading,
+    setBufferedLength,
+    setSongSeekTime
 } from './audioPlayer'
 
 export {
@@ -29,5 +31,7 @@ export {
     playSong,
     setSongDuration,
     setSongCurrTime,
-    setSongLoading
+    setSongLoading,
+    setBufferedLength,
+    setSongSeekTime
 }

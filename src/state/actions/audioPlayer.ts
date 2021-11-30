@@ -19,9 +19,19 @@ interface SetSongCurrTimeAction {
     payload: number;
 }
 
-interface SetSongLoading {
+interface SetSongLoadingAction {
     type : ActionType.SET_SONG_LOADING;
     payload: boolean;
 }
 
-export type Action = PlaySongAction | PauseSongAction | SetSongDurationAction | SetSongCurrTimeAction | SetSongLoading
+interface SetBufferedLengthAction {
+    type : ActionType.SET_BUFFERED_LENGTH;
+    payload: number;
+}
+
+interface SetSongSeekTimeAction {
+    type : ActionType.SET_SONG_SEEK_TIME;
+    payload: number;
+}
+
+export type Action = PlaySongAction | PauseSongAction | SetSongDurationAction | SetSongCurrTimeAction | SetSongLoadingAction | SetBufferedLengthAction | SetSongSeekTimeAction

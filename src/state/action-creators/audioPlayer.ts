@@ -46,10 +46,30 @@ const setSongLoading = (songIsLoading: boolean) => {
     }
 }
 
+const setBufferedLength = (bufferedLength: number) => {
+    return (dispatch: Dispatch<Action>) => {
+        dispatch({
+            type: ActionType.SET_BUFFERED_LENGTH,
+            payload: bufferedLength
+        })
+    }
+}
+
+const setSongSeekTime = (seekTime: number) => {
+    return (dispatch: Dispatch<Action>) => {
+        dispatch({
+            type: ActionType.SET_SONG_SEEK_TIME,
+            payload: seekTime
+        })
+    }
+}
+
 export {
     playSong,
     pauseSong,
     setSongDuration,
     setSongCurrTime,
-    setSongLoading
+    setSongLoading,
+    setBufferedLength,
+    setSongSeekTime
 }

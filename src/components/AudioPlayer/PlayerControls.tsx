@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Pause, Play, SkipBack, SkipForward, RotateCw } from 'react-feather';
 import { useSelector, useDispatch } from 'react-redux';
